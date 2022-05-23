@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+input {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.suggestions {
+  list-style: none;
+  width: 100%;
+  padding-inline-start: 0px;
+  margin-top: 0px;
+}
+
+.suggestions li {
+  padding: 0.5rem;
+  width: 100%;
+  border: 1px solid #999;
+}
