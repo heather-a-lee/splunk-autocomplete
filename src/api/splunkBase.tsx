@@ -1,9 +1,19 @@
-class SplunkBaseApi {
-  cachedResults;
+import { SplunkApp } from '../types';
 
-  async getAllData(path) {
-    if (this.cachedResults) { // This is for local development to reduce spamming API on hot reloading
-      console.log("Loading from cache...");
+export type SplunkBaseResponse = {
+  offset: number;
+  limit: number;
+  total: number;
+  results: SplunkApp[];
+};
+
+class SplunkBaseApi {
+  cachedResults: SplunkApp[];
+
+  async getAllData(path: string) {
+    if (this.cachedResults) {
+      // This is for local development to reduce spamming API on hot reloading
+      console.log('Loading from cache...');
       return this.cachedResults;
     }
     let { offset, limit, total, results } = await this.get(path);
@@ -15,19 +25,19 @@ class SplunkBaseApi {
       currentOffset = currentOffset + limit;
     }
     const allData = await Promise.all(requestPromises);
-    allData.forEach(data => {
+    allData.forEach((data) => {
       result = [...result, ...data.results];
     });
     this.cachedResults = result;
     return result;
   }
 
-  async get(path, offset = 0) {
+  async get(path: string, offset = 0): Promise<SplunkBaseResponse> {
     const params = new URLSearchParams({
-      limit: 100,
-      offset,
+      limit: '100',
+      offset: `${offset}`,
     });
-    const res = await fetch(`${path}?${params}`); 
+    const res = await fetch(`${path}?${params}`);
     return res.json();
   }
 }
